@@ -1,5 +1,6 @@
 defmodule SteamIntersection.Steam.Library do
   use HTTPoison.Base
+  alias SteamIntersection.Steam.App
 
   def api_key() do
     System.get_env("STEAM_API_KEY")
@@ -46,6 +47,7 @@ defmodule SteamIntersection.Steam.Library do
     |> get()
     |> case do
       {:ok, %{status_code: 200, body: %{response: body}}} ->
+        body = Map.put(body, :games, Enum.map(body.games, & App.build(&1)))
         {:ok, body}
 
       {:error, err} ->
