@@ -48,10 +48,15 @@ defmodule SteamIntersection.Steam.Library do
     |> Map.put(:steamid, steamid)
     |> endpoint()
     |> get()
+    |> IO.inspect(label: "GET OWNED GAMES #{steamid}")
     |> case do
-      {:ok, %{status_code: 200, body: %{response: body}}} ->
-        body = Map.put(body, :games, Enum.map(body.games, & App.build(&1)))
+      {:ok, %{status_code: 200, body: %{response: %{games: games} = body}}} ->
+        body = Map.put(body, :games, Enum.map(games, & App.build(&1)))
         {:ok, body}
+
+      {:ok, %{status_code: 200, body: %{response: _}}} ->
+        {:error, "profile is private"}
+
 
       {:error, err} ->
         {:error, err}
@@ -71,5 +76,34 @@ defmodule SteamIntersection.Steam.Library do
 
       resp
     end)
+  end
+
+  def get_intersection(steam_ids) when is_list(steam_ids) do
+    data = steam_ids
+    |> Enum.map(fn id ->
+      Task.Supervisor.async_nolink(SteamIntersection.TaskSupervisor, fn -> {id, get_owned_games(id)} end)
+    end)
+    |> Enum.map(&Task.await/1)
+    |> Enum.filter(fn {_, {msg, _}} -> msg == :ok end)
+    |> Enum.map(fn {id, {_, %{games: games}}} -> {id, games} end)
+    |> Enum.reduce(%{all: %{}, intersection: MapSet.new}, fn {_id, games}, acc ->
+      game_ids = Enum.map(games, & &1.appid) |> Enum.into(MapSet.new)
+
+      case MapSet.size(acc.intersection) do
+        0 ->
+          acc = Map.put(acc, :all, Enum.reduce(games, acc.all, fn game, all ->
+            Map.put_new(all, game.appid, game)
+          end))
+          %{acc|intersection: game_ids}
+        _ ->
+          acc = Map.put(acc, :all, Enum.reduce(games, acc.all, fn game, all ->
+            Map.put_new(all, game.appid, game)
+          end))
+
+          %{acc|intersection: MapSet.intersection(game_ids, acc.intersection)}
+      end
+    end)
+
+    Enum.map(data.intersection, & Map.get(data.all, &1))
   end
 end

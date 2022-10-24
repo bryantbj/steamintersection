@@ -17,6 +17,10 @@ defmodule Constants do
   def popbumpers_id() do
     "76561198085395935"
   end
+
+  def ids() do
+    ~w[76561198085395935 76561198149326479 76561198070306614]
+  end
 end
 
 

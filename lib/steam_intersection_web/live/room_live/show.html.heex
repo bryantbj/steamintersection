@@ -14,9 +14,9 @@
 <% end %>
 
 <section class="py-3">
-  <h3 class="text-2xl py-3">Room Code: <%= @room.public_id %></h3>
+  <h3 class="text-2xl py-3 hidden">Room Code: <%= @room.public_id %></h3>
 
-  <.form let={f} for={:search} phx-change="validate" phx-submit="add">
+  <.form let={f} for={:search} phx-submit="add">
     <.input_text_field
       form={f}
       field={:q}
@@ -43,7 +43,7 @@
     <table class="table">
       <tbody>
       <%= for profile <- @profiles do %> 
-        <tr>
+        <tr id={"steam-profile-#{profile.steamid}"}>
           <td>
             <div class="flex items-center space-x-3">
               <div class="avatar">
@@ -53,7 +53,12 @@
               </div>
               <div>
                 <div class="font-bold">
-                  <%= link(profile.personaname, to: profile.profileurl, method: :get, target: "_blank", class: "link") %>
+                  <%= link(profile.personaname, to: profile.profileurl, method: :get, target: "_blank", class: "link") %>&nbsp;
+                  <%= if profile.communityvisibilitystate == 1 do %>
+                    <div class="tooltip" data-tip="Private profiles cannot be queried">
+                      <i class="fa-solid fa-eye-slash" />
+                    </div>
+                  <% end %>
                 </div>
               </div>
             </div> 
@@ -64,6 +69,40 @@
     </table>
   <% end %>
 </section>
+
+<%= if length(@games) > 0 do %>
+<section class="py-3">
+  <h3 class="text-2xl py-3">
+    Games in common
+    <.form let={f} for={:filter} phx-change="filter" phx-submit="filter">
+      <.input_text_field
+        form={f}
+        field={:q}
+        text="Filter results"
+        placeholder="witcher"
+        class="lg:w-1/2 xl:w-1/3"
+      />
+    </.form>
+  </h3>
+
+  <table class="table">
+  <tbody>
+    <%= for game <- @filtered do %>
+      <tr>
+        <td>
+          <picture>
+            <source srcset={game.img_header_url} type={"image/#{game.header_ext}"} />
+            <source srcset={game.img_icon_url} type={"image/#{game.icon_ext}"} />
+            <img src="/images/controller.png" />
+          </picture>
+        </td>
+        <td><%= game.name %></td>
+      </tr>
+    <% end %>
+  </tbody>
+  </table>
+</section>
+<% end %>
 
 
 <% if false do %>

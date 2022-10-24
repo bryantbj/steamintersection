@@ -18,7 +18,8 @@ defmodule SteamIntersection.Application do
       SteamIntersectionWeb.Endpoint,
       # Start a worker by calling: SteamIntersection.Worker.start_link(arg)
       # {SteamIntersection.Worker, arg}
-      {Cachex, name: :app}
+      {Cachex, name: :app},
+      {Task.Supervisor, name: SteamIntersection.TaskSupervisor}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
