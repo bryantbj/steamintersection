@@ -2,6 +2,9 @@ defmodule SteamIntersection.Steam.Library do
   use HTTPoison.Base
   alias SteamIntersection.Steam.App
 
+  @cache :app
+  @ttl :timer.minutes(10)
+
   def api_key() do
     System.get_env("STEAM_API_KEY")
   end
@@ -56,5 +59,17 @@ defmodule SteamIntersection.Steam.Library do
       other ->
         other
     end
+  end
+
+  def get_owned_games_cache(steamid, opts \\ default_options()) do
+    Cachex.execute(@cache, fn cache ->
+      resp = Cachex.fetch(cache, String.trim(steamid), fn key ->
+        {:commit, get_owned_games(key, opts)}
+      end)
+
+      Cachex.expire(cache, steamid, @ttl)
+
+      resp
+    end)
   end
 end

@@ -15,9 +15,10 @@ defmodule SteamIntersection.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: SteamIntersection.PubSub},
       # Start the Endpoint (http/https)
-      SteamIntersectionWeb.Endpoint
+      SteamIntersectionWeb.Endpoint,
       # Start a worker by calling: SteamIntersection.Worker.start_link(arg)
       # {SteamIntersection.Worker, arg}
+      {Cachex, name: :app}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

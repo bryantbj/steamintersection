@@ -10,8 +10,9 @@
     <script defer phx-track-static type="text/javascript" src={Routes.static_path(@conn, "/assets/app.js")}></script>
   </head>
   <body>
+    <% if false do %>
     <header>
-      <section class="container">
+      <section class="container mx-auto">
         <nav>
           <ul>
             <li><a href="https://hexdocs.pm/phoenix/overview.html">Get Started</a></li>
@@ -25,6 +26,7 @@
         </a>
       </section>
     </header>
+    <% end %>
     <%= @inner_content %>
   </body>
 </html>

@@ -49,7 +49,7 @@ defmodule SteamIntersection.Rooms do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_room(attrs \\ %{}) do
+  def create_room(attrs \\ %{public_id: Room.gen_public_id()}) do
     %Room{}
     |> Room.changeset(attrs)
     |> Repo.insert()

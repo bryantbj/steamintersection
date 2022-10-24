@@ -15,13 +15,7 @@ defmodule SteamIntersection.Rooms.Room do
     |> validate_required([:public_id])
   end
 
-  def gen_public_id(steamid) do
-    [
-      Time.utc_now() |> Time.to_string,
-      ".",
-      to_string(steamid)
-    ]
-    |> Enum.join()
-    |> Base.encode64(padding: false)
+  def gen_public_id() do
+    Ecto.UUID.generate |> Base.url_encode64
   end
 end

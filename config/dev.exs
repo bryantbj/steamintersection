@@ -24,9 +24,16 @@ config :steam_intersection, SteamIntersectionWeb.Endpoint,
   debug_errors: true,
   secret_key_base: "e/klQMxVe+0gQlthN9cTyBXMDNCjLg7IwNJXBUxH3c2YS1QHNrpk/MxytW7nrFix",
   watchers: [
-    # Start the esbuild watcher by calling Esbuild.install_and_run(:default, args)
-    esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]}
+    node: [
+      "build.js",
+      cd: Path.expand("../assets/scripts/", __DIR__),
+      env: %{"ESBUILD_LOG_LEVEL" => "silent", "ESBUILD_WATCH" => "1", "NODE_ENV" => "development"}
+    ]
   ]
+  # watchers: [
+  #   # Start the esbuild watcher by calling Esbuild.install_and_run(:default, args)
+  #   esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]}
+  # ]
 
 # ## SSL Support
 #

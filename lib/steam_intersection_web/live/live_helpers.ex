@@ -2,6 +2,9 @@ defmodule SteamIntersectionWeb.LiveHelpers do
   import Phoenix.LiveView
   import Phoenix.LiveView.Helpers
 
+  use Phoenix.HTML
+  import SteamIntersectionWeb.ErrorHelpers
+
   alias Phoenix.LiveView.JS
 
   @doc """
@@ -51,6 +54,46 @@ defmodule SteamIntersectionWeb.LiveHelpers do
     </div>
     """
   end
+
+  @doc """
+  Renders an input field with its label and error messages
+
+  ## Examples
+    <.input_field form={f} field={:amount} text={"Amount *"}>
+      <%= text_input f, :amount, type: "tel", placeholder: "5.99" %>
+    </.input_field>
+  """
+  def input_field(assigns) do
+    assigns = assign_new(assigns, :root_class, fn -> nil end)
+
+    ~H"""
+    <div class="form-control" class={@root_class}>
+      <%= label @form, @field, class: "label" do %>
+        <%= content_tag :span, @text, class: "label-text" %>
+      <% end %>
+      <%= render_slot(@inner_block) %>
+      <%= label @form, @field, class: "label"  do %>
+        <%= error_tag @form, @field, class: "label-text-alt text-error" %>
+      <% end %>
+    </div>
+    """
+  end
+
+  def input_text_field(assigns) do
+    rest =
+      assigns
+      |> assigns_to_attributes([:form, :field, :text])
+      |> Keyword.merge([class: Enum.join(["input input-bordered", assigns.class], " ")])
+
+    assigns = assign(assigns, :rest, rest)
+
+    ~H"""
+    <.input_field form={@form} field={@field} text={@text}>
+      <%= text_input @form, @field, @rest %>
+    </.input_field>
+    """
+  end
+
 
   defp hide_modal(js \\ %JS{}) do
     js

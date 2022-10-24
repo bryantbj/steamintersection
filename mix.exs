@@ -20,7 +20,7 @@ defmodule SteamIntersection.MixProject do
   def application do
     [
       mod: {SteamIntersection.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :cachex]
     ]
   end
 
@@ -50,7 +50,8 @@ defmodule SteamIntersection.MixProject do
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
       {:httpoison, "~> 1.8"},
-      {:exconstructor, "~> 1.2.6"}
+      {:exconstructor, "~> 1.2.6"},
+      {:cachex, "~> 3.4.0"}
     ]
   end
 
@@ -66,7 +67,10 @@ defmodule SteamIntersection.MixProject do
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
-      "assets.deploy": ["esbuild default --minify", "phx.digest"]
+      "assets.deploy": [
+        "cmd --cd assets NODE_ENV=production node scripts/build.js",
+        "phx.digest"
+      ]
     ]
   end
 end

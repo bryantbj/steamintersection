@@ -8,10 +8,20 @@ defmodule SteamIntersectionWeb.ErrorHelpers do
   @doc """
   Generates tag for inlined form input errors.
   """
-  def error_tag(form, field) do
+  def error_tag(form, field, opts \\ [class: ""]) do
+    default_opts = [class: "invalid-feedback"]
+
+    [{:class, class}] = opts
+
+    class = cond do
+      is_list(class) -> [default_opts[:class]|class]
+      is_binary(class) -> class <> " " <> default_opts[:class]
+      true -> default_opts[:class]
+    end
+
     Enum.map(Keyword.get_values(form.errors, field), fn error ->
       content_tag(:span, translate_error(error),
-        class: "invalid-feedback",
+        class: class,
         phx_feedback_for: input_name(form, field)
       )
     end)
