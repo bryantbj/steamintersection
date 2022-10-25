@@ -20,7 +20,6 @@ defmodule SteamIntersectionWeb.Endpoint do
           "staging" -> "https://acme-staging-v02.api.letsencrypt.org/directory"
           "production" -> "https://acme-v02.api.letsencrypt.org/directory"
         end
-   )
     )
   end
 
