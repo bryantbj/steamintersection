@@ -15,7 +15,7 @@ defmodule SteamIntersection.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: SteamIntersection.PubSub},
       # Start the Endpoint (http/https)
-      SteamIntersectionWeb.Endpoint,
+      {SiteEncrypt.Phoenix, SteamIntersectionWeb.Endpoint},
       # Start a worker by calling: SteamIntersection.Worker.start_link(arg)
       # {SteamIntersection.Worker, arg}
       {Cachex, name: :app},

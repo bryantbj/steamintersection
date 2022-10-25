@@ -51,7 +51,8 @@ defmodule SteamIntersection.MixProject do
       {:plug_cowboy, "~> 2.5"},
       {:httpoison, "~> 1.8"},
       {:exconstructor, "~> 1.2.6"},
-      {:cachex, "~> 3.4.0"}
+      {:cachex, "~> 3.4.0"},
+      {:site_encrypt, "~> 0.4"}
     ]
   end
 
