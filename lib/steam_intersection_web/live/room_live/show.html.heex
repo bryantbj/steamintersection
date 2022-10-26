@@ -14,14 +14,14 @@
 <% end %>
 
 <section class="py-3">
-  <p>
+  <p class="py-3">
     Paste a Steam profile URL in the field below and click "Add steam profile". Once 2 or more profiles have been added, click "Intersect!"
     to find the games those profiles have in common.
   </p>
-  <p>
+  <p class="py-3">
     Note: In order to find a Steam profile URL:
   </p>
-  <ol>
+  <ol class="list-decimal p-3">
     <li>Open you friends list</li>
     <li>Right-click a friend's name</li>
     <li>Click <strong>View Profile</strong></li>
@@ -94,6 +94,7 @@
         text="Filter results"
         placeholder="witcher, ark, duty, etc"
         class="lg:w-1/2 xl:w-1/3"
+        autocomplete="off"
       />
     </.form>
   </h3>
@@ -111,3 +112,5 @@
     </div>
   <% end %>
   </div>
+</section>
+<% end %>
