@@ -14,6 +14,8 @@ const OUTPUT_FILE = 'app.js';
 const MODE = process.env['NODE_ENV'] || 'production';
 const TARGET = 'es2016'
 
+console.log(`build.js running! Mode: ${MODE}`)
+
 // build
 function build(entryFile, outFile) {
 	console.log(`[+] Starting static assets build with esbuild. Build mode ${MODE}...`)
