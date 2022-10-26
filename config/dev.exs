@@ -26,8 +26,8 @@ config :steam_intersection, SteamIntersectionWeb.Endpoint,
   secret_key_base: "e/klQMxVe+0gQlthN9cTyBXMDNCjLg7IwNJXBUxH3c2YS1QHNrpk/MxytW7nrFix",
   watchers: [
     node: [
-      "build.js",
-      cd: Path.expand("../assets/scripts/", __DIR__),
+      "scripts/build.js",
+      cd: Path.expand("../assets/", __DIR__),
       env: %{"ESBUILD_LOG_LEVEL" => "silent", "ESBUILD_WATCH" => "1", "NODE_ENV" => "development"}
     ]
   ]
