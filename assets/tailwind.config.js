@@ -1,13 +1,13 @@
 module.exports = {
 	mode: 'jit',
 	content: [
-		'../../lib/**/*.ex',
-		'../../lib/**/*.leex',
-		'../../lib/**/*.heex',
-		'../../lib/**/*.lexs',
-		'../../lib/**/*.exs',
-		'../../lib/**/*.eex',
-		'../js/**/*.js'
+		'./../lib/**/*.ex',
+		'./../lib/**/*.leex',
+		'./../lib/**/*.heex',
+		'./../lib/**/*.lexs',
+		'./../lib/**/*.exs',
+		'./../lib/**/*.eex',
+		'./js/**/*.js'
 	],
 	theme: {
 		extend: {},
