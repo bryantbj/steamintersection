@@ -48,7 +48,6 @@ defmodule SteamIntersection.Steam.Library do
     |> Map.put(:steamid, steamid)
     |> endpoint()
     |> get()
-    |> IO.inspect(label: "GET OWNED GAMES #{steamid}")
     |> case do
       {:ok, %{status_code: 200, body: %{response: %{games: games} = body}}} ->
         body = Map.put(body, :games, Enum.map(games, & App.build(&1)))
