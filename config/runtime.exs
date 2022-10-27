@@ -44,8 +44,8 @@ if config_env() == :prod do
       """
 
   host = System.get_env("PHX_HOST") || "example.com"
-  http_port = String.to_integer(System.get_env("HTTP_PORT")) || "4000"
-  https_port = String.to_integer(System.get_env("HTTPS_PORT")) || "4040"
+  http_port = String.to_integer(System.get_env("HTTP_PORT") || "4000")
+  https_port = String.to_integer(System.get_env("HTTPS_PORT") || "4040")
 
 
   config :steam_intersection, SteamIntersectionWeb.Endpoint,
