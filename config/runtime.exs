@@ -7,6 +7,9 @@ import Config
 # any compile-time configuration in here, as it won't be applied.
 # The block below contains prod specific runtime configuration.
 
+
+
+
 # Start the phoenix server if environment is set and running in a release
 if System.get_env("PHX_SERVER") && System.get_env("RELEASE_NAME") do
   config :steam_intersection, SteamIntersectionWeb.Endpoint, server: true
@@ -51,8 +54,9 @@ if config_env() == :prod do
       # See the documentation on https://hexdocs.pm/plug_cowboy/Plug.Cowboy.html
       # for details about using IPv6 vs IPv4 and loopback vs public addresses.
       ip: {0, 0, 0, 0, 0, 0, 0, 0},
-      port: port
+      port: port: String.to_integer(System.get_env("HTTP_PORT"))
     ],
+    https: [port: String.to_integer(System.get_env("HTTPS_PORT"))]
     secret_key_base: secret_key_base
 
   # ## Using releases
