@@ -56,7 +56,7 @@ if config_env() == :prod do
       ip: {0, 0, 0, 0, 0, 0, 0, 0},
       port: port: String.to_integer(System.get_env("HTTP_PORT"))
     ],
-    https: [port: String.to_integer(System.get_env("HTTPS_PORT"))]
+    https: [port: String.to_integer(System.get_env("HTTPS_PORT"))],
     secret_key_base: secret_key_base
 
   # ## Using releases
